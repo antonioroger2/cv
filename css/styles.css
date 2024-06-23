@@ -7674,6 +7674,10 @@ textarea.form-control-lg {
   margin-bottom: 3rem !important;
 }
 
+.mb-6 {
+  margin-bottom: 0 !important;
+}
+
 .mb-auto {
   margin-bottom: auto !important;
 }
@@ -8129,7 +8133,7 @@ textarea.form-control-lg {
 }
 
 .bg-primary {
-  --bs-bg-opacity: 1;
+  --bs-bg-opacity: 0.99;
   background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
 }
 
@@ -11005,6 +11009,16 @@ section.resume-section .resume-section-content {
 @media (max-width: 991px) {
   .profile {
     display: block !important;
+  }
+  .mb-0{
+    display: block;
+  }
+  .text-primary1{
+    
+    color: white;
+  }
+  .mb-6{
+    display: none;
   }
 
 
