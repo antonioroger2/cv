@@ -1,0 +1,94 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#login-card {
+    margin-top: 50px;
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: #fff;
+}
+
+#login-form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#error-message {
+    text-align: center;
+}
+
+#links-card {
+    margin-top: 30px;
+    background: linear-gradient(135deg, #48c6ef, #6f86d6);
+    color: #fff;
+}
+
+.list-group-item {
+    background-color: #fff;
+}
+
+.list-group-item:hover {
+    background-color: #f0f0f0;
+}
+
+#logout-btn {
+    margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+    #login-card {
+        margin-top: 100px;
+    }
+}
+.btn-custom-purple {
+    background: linear-gradient(to bottom, #8e44ad, #9b59b6); /* Purple gradient */
+    color: #fff; /* Text color */
+    border-color: #8e44ad; /* Border color */
+    min-width: 200px; /* Adjust button width as needed */
+    font-size: 16px; /* Increase font size for better readability */
+    white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.btn-custom-purple:hover {
+    background: linear-gradient(to bottom, #9b59b6, #8e44ad); /* Reverse gradient on hover */
+    color: #fff; /* Text color */
+}
+
+@media (max-width: 768px) {
+    .btn-custom-purple {
+        font-size: 14px; /* Decrease font size for smaller screens */
+    }
+}
+
+
+body {
+
+    font-family: Arial, sans-serif; /* Choose a readable font */
+    background-image: url("assets/img/PSG-College-of-Technology-PSGCT-Coimbatore-Campus-View-1.jpg");
+    background-size: cover;
+}
+.card {
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+.card-title {
+    font-weight: bold;
+}
+.btn-custom-purple {
+    background-color: #6f42c1; /* Custom purple color */
+    color: white;
+}
+.btn-custom-purple:hover {
+    background-color: #553d8b; /* Darker purple on hover */
+}
+.file-input-wrapper {
+    max-width: 500px;
+    margin: 50px auto;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSG TECH - LINKTREE STUDZONE</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background-image: url(assets/img/PSG-College-of-Technology-PSGCT-Coimbatore-Campus-View-1.jp); background-size: cover;background-position: center; background-repeat: no-repeat;">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="text-center">
+            <div id="login" class="card p-4">
+                <div class="card-body">
+                    <h5 class="card-title">Login</h5>
+                    <form autocomplete="off">
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" placeholder="Enter Password" autocomplete="off">
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                        <p id="error-message" class="text-danger mt-2"></p>
+                    </form>
+                    <button id="redirect-btn" class="btn btn-outline-danger btn-block mt-4">
+                    <i class="fas fa-sign-out-alt ml-2"></i>
+                </div>
+            </div>
+            <div id="links" class="card shadow p-4" style="display: none; background-color: rgba(255, 255, 255, 0.888); max-width: 50vh;">
+                <div class="card-body" style="overflow: scroll;">
+                    <h5 class="card-title mb-4">Your Links</h5>
+                    <div class="row">
+                        <div class="col-6 text-center mb-3">
+                            <a href="https://wa.link/fbnrwv" class="btn btn-custom-purple" target="_blank">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="https://t.me/a2802p" class="btn btn-custom-purple" target="_blank">
+                                <i class="fab fa-telegram"></i> Telegram
+                            </a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="mailto:krithuudhayakumar24@gmail.com" class="btn btn-custom-purple" target="_blank">
+                                <i class="fas fa-envelope"></i> Email
+                            </a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="https://tiny.cc/2428" class="btn btn-custom-purple" target="_blank">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="/main.html" class="btn btn-custom-purple">
+                                <i class="fab fa-google"></i> Dummy
+                            </a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="https://www.instagram.com/insane_ritika20" class="btn btn-custom-purple" target="_blank">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                        </div>
+                    </div>
+                    <button id="logout-btn" class="btn btn-outline-danger btn-block mt-4">
+                        Logout <i class="fas fa-sign-out-alt ml-2"></i>
+                    </button>
+                    <h5 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Feedback Submission</h5>
+                    <form id="feedback-form" method="POST">
+                        <div class="form-group">
+                            <textarea name="message" class="form-control" autocomplete="off" placeholder="Your Feedback" rows="3" required></textarea>
+                        </div>
+                        <div class="alert alert-info" role="alert" style="font: 0.75em sans-serif;">
+                            Responses take a few minutes to reach our Admin.<br>
+                            Abrupt exit will result failure in mail delivery.<br>
+                            This site does not have any encryption.<br>
+                            Please do not share personal information.
+                        </div>
+                        <button type="submit" class="btn btn-outline-danger btn-block mt-4">Submit Form</button>
+                    </form>
+                    <div class="alert alert-info" role="alert" style="margin-top: 2%; font: 0.75em sans-serif;">
+                        <p>This Site will expire in 3 minutes. You'll also be logged out if you use any link or submit feedback for security reasons. Ensure logging out and clear your browser log after use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
