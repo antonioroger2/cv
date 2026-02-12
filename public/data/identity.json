@@ -1,0 +1,140 @@
+{
+  "name": "Antonio Roger",
+  "username": "@antonioroger2",
+  "role": "AI/ML Engineer & Full Stack Developer",
+  "bio": "Aspiring AI student passionate about problem-solving, innovation, and applying AI technologies to build impactful solutions. Experienced in AI-driven development, enthusiastic about continuous learning and creative problem-solving.",
+  "avatar": "data/avatar.jpg",
+  "location": "Coimbatore, Tamil Nadu, India",
+  "status": "Available for opportunities",
+  "statusColor": "green",
+  "education": [
+    {
+      "degree": "Bachelor of Technology, Computer Science and Engineering (AI)",
+      "institution": "Amrita Vishwa Vidyapeetham",
+      "startDate": "Jan 2023",
+      "endDate": "Aug 2027(Present)"
+    },
+    {
+      "degree": "Class 12, Science",
+      "institution": "Kovai Public School - India",
+      "startDate": "Jan 2017",
+      "endDate": "May 2023"
+    }
+  ],
+  "experience": [
+    {
+      "id": "intel-iot-club",
+      "title": "Head - Application Development",
+      "company": "Intel IoT Club",
+      "location": "Coimbatore, Tamil Nadu, India",
+      "type": "full-time",
+      "startDate": "Aug 2024",
+      "current": true,
+      "description": "Leading the App Development vertical and serving as Tech Head for a NASSCOM incubated student startup through club initiative.",
+      "skills": ["Web Development", "App Development", "Leadership", "Startup Incubation", "React", "Node.js", "Firebase"],
+      "roles": [
+        {
+          "id": "app-dev-lead",
+          "title": "App Dev Lead",
+          "startDate": "Aug 2024",
+          "current": true,
+          "description": "Leading the App Development vertical and serving as Tech Head for a NASSCOM incubated student startup through club initiative.",
+          "skills": ["Web Development", "App Development", "Leadership", "Startup Incubation"]
+        },
+        {
+          "id": "web-app-developer",
+          "title": "Web/App Developer",
+          "startDate": "Nov 2024",
+          "current": true,
+          "description": "Contributed to multiple club projects, leading the App Development vertical and serving as Tech Head for a NASSCOM incubated student startup through club initiative.",
+          "skills": ["Web Development", "App Development", "React", "Node.js", "Firebase"]
+        }
+      ]
+    },
+    {
+      "id": "tedx-web-technical",
+      "title": "Web & Technical Expert",
+      "company": "TEDxAmritaVishwaVidyapeetham",
+      "location": "Coimbatore, Tamil Nadu, India",
+      "type": "part-time",
+      "startDate": "Sep 2024",
+      "endDate": "Nov 2025",
+      "description": "Technical support and web development for TEDx events and initiatives.",
+      "skills": ["Web Development", "Event Management", "Technical Support"]
+    },
+    {
+      "id": "team-media-photographer",
+      "title": "Photographer",
+      "company": "Team Media - Amrita",
+      "location": "Coimbatore, Tamil Nadu, India",
+      "type": "part-time",
+      "startDate": "Nov 2023",
+      "endDate": "Dec 2024",
+      "description": "Photography and media coverage for university events and activities.",
+      "skills": ["Photography", "Photo Editing", "Event Coverage"]
+    }
+  ],
+  "certifications": [
+    {
+      "id": "nptel-dsa-java",
+      "title": "Data Structure and Algorithms using Java",
+      "issuer": "NPTEL",
+      "issueDate": "Nov 2024",
+      "credentialId": "NPTEL2024DSA",
+      "skills": ["Java", "Data Structures", "Algorithms"],
+      "logo": "/logos/nptel.png"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "cisco-cohort7-runner-up",
+      "title": "Runner-Up, Cisco Cohort7 Hackathon",
+      "issuer": "Nasscom Foundation - ThingQbator",
+      "issueDate": "Apr 2025",
+      "description": "We made it into the Top 20 finalists of Cisco's ThingQbator Cohort 7 and finished as Runners-Up. What started as a fun idea turned into a serious build after weeks of iteration. This journey opened doors to NASSCOM Foundation incubation support, and we're now officially MCA registered startup.",
+      "certificateUrl": "/certificates/cisco-certificate.pdf",
+      "logo": "/logos/cisco.png"
+    }
+  ],
+  "careerObjective": "Passionate about leveraging AI/ML and modern web technologies to solve real-world problems. Seeking opportunities to work on innovative projects that make a difference.",
+  "social": {
+    "email": "antonioroger330@gmail.com",
+    "github": "https://github.com/antonioroger2",
+    "linkedin": "https://in.linkedin.com/in/antonio-roger-a2a9b71b3",
+    "telegram": "https://t.me/a2802p",
+    "whatsapp": "https://wa.me/918531920426",
+    "instagram": "https://instagram.com/antOn.28"
+  },
+  "resume": "/resume.pdf",
+  "skills": [
+    "Python",
+    "TensorFlow",
+    "PyTorch",
+    "Next.js",
+    "React",
+    "Flutter",
+    "Firebase",
+    "Node.js",
+    "Machine Learning",
+    "Deep Learning",
+    "Computer Vision",
+    "NLP",
+    "Docker",
+    "AWS",
+    "C",
+    "C++",
+    "Java",
+    "MongoDB",
+    "MySQL",
+    "Git",
+    "GitHub",
+    "Arduino",
+    "Raspberry Pi",
+    "ESP32"
+  ],
+  "metadata": {
+    "theme": "dark",
+    "accentColor": "#0ea5e9",
+    "lastUpdated": "2025-02-08"
+  }
+}

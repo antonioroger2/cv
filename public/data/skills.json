@@ -1,0 +1,84 @@
+{
+  "categories": [
+    {
+      "id": "web-frameworks",
+      "title": "Web-development Frameworks",
+      "items": [
+        "MongoDB",
+        "Express",
+        "React",
+        "Node.js",
+        "Flutter"
+      ]
+    },
+    {
+      "id": "ml-tools",
+      "title": "Machine Learning & Tools",
+      "items": [
+        "PyTorch",
+        "DGL",
+        "Scikit-learn",
+        "OpenCV",
+        "TensorFlow"
+      ]
+    },
+    {
+      "id": "deep-learning",
+      "title": "Deep Learning",
+      "items": [
+        "Transformers",
+        "CNN",
+        "RNN",
+        "LSTM",
+        "Keras",
+        "TensorFlow",
+        "CUDA",
+        "Hugging Face",
+        "PyTorch Lightning"
+      ]
+    },
+    {
+      "id": "languages",
+      "title": "Programming Languages",
+      "items": [
+        "C",
+        "Python",
+        "C++",
+        "Java"
+      ]
+    },
+    {
+      "id": "iot",
+      "title": "Embedded Systems & IoT",
+      "items": [
+        "Arduino",
+        "NodeMCU",
+        "Raspberry Pi",
+        "ESP32"
+      ]
+    },
+    {
+      "id": "databases-cloud",
+      "title": "Databases & Cloud",
+      "items": [
+        "MongoDB",
+        "Firebase",
+        "MySQL",
+        "Postgres",
+        "Redis",
+        "S3",
+        "AWS",
+        "Azure"
+      ]
+    },
+    {
+      "id": "devops",
+      "title": "Version Control & DevOps",
+      "items": [
+        "Git",
+        "GitHub",
+        "Vercel deployment"
+      ]
+    }
+  ]
+}
