@@ -1,8 +1,8 @@
 'use client';
 
-import { Experience } from '@/Portfolio';
+import { Experience } from '@/lib/types';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, ChevronDown } from 'lucide-react';
+import { Calendar, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface ExperienceSectionProps {
@@ -34,20 +34,6 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
     return dateString;
   };
 
-  const getDuration = (startDate: string, endDate?: string, current?: boolean) => {
-    const startParsed = Date.parse(startDate);
-    const endParsed = endDate ? Date.parse(endDate) : current ? Date.now() : null;
-    if (Number.isNaN(startParsed) || (!endParsed && !current)) return '';
-    const start = new Date(startParsed);
-    const end = endParsed ? new Date(endParsed) : new Date();
-    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return '';
-    const diffMonths = Math.ceil(Math.abs(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30.44));
-    if (diffMonths < 12) return `${diffMonths} mos`;
-    const years = Math.floor(diffMonths / 12);
-    const months = diffMonths % 12;
-    return months > 0 ? `${years} yr ${months} mos` : `${years} yr`;
-  };
-
   const toggle = (id: string) => setExpandedId(expandedId === id ? null : id);
 
   return (
@@ -65,7 +51,6 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
           <div className="space-y-0">
             {experiences.map((exp, index) => {
               const isExpanded = expandedId === exp.id;
-              const duration = getDuration(exp.startDate, exp.endDate, exp.current);
 
               return (
                 <motion.div
@@ -98,7 +83,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                           <Calendar size={14} />
                           <span>
                           {/* Safe check: render empty string if date is missing */}
-                          {formatDate(exp.startDate)} – {exp.current ? 'Present' : formatDate(exp.endDate)}
+                          {formatDate(exp.startDate)} – {exp.current ? 'Present' : formatDate(exp.endDate ?? '')}
                         </span>
                         </div>
 

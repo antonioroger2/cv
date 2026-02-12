@@ -1,6 +1,6 @@
 'use client';
 
-import { Achievement } from '@/Portfolio';
+import { Achievement } from '@/lib/types';
 import { motion } from 'framer-motion';
 import { Trophy, Calendar, ExternalLink } from 'lucide-react';
 

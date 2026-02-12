@@ -2,14 +2,22 @@
 
 import { useTheme } from 'next-themes';
 import { Sun, Moon, Monitor } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+
+const useMounted = () => {
+  const [mounted, setMounted] = useState(false);
+  if (typeof window !== 'undefined' && !mounted) {
+    // This runs during rendering (not in an effect) so it's safe
+    // We use a state initializer trick: on first client render, set mounted
+    Promise.resolve().then(() => setMounted(true));
+  }
+  return mounted;
+};
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
 
   if (!mounted) {
     return (

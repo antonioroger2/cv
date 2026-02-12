@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef, ReactNode } from 'react';
-import { motion, useAnimation, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useAnimation, useInView } from 'framer-motion';
 import { IdentityData, Project } from '@/lib/types';
 import { getProjects } from '@/lib/database';
 import ProjectsCarousel from '@/components/ProjectsCarousel';
@@ -52,7 +52,7 @@ export default function Home() {
   const [identity, setIdentity] = useState<IdentityData | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);

@@ -5,6 +5,7 @@ export interface Role {
   current: boolean;
   description: string;
   skills: string[];
+  endDate?: string;
 }
 
 export interface Experience {
@@ -26,6 +27,9 @@ export interface Education {
   institution: string;
   startDate: string;
   endDate: string;
+  year?: string;
+  cgpa?: string;
+  grade?: string;
 }
 
 export interface Certification {
@@ -36,6 +40,8 @@ export interface Certification {
   credentialId: string;
   skills: string[];
   logo: string;
+  expiryDate?: string;
+  credentialUrl?: string;
 }
 
 export interface Achievement {
@@ -81,18 +87,26 @@ export interface IdentityData {
   };
 }
 
+// lib/types.ts
+
 export interface Project {
   id: string;
   title: string;
+  description?: string;
+  techStack?: string[];
+  gitLink?: string;
+  pdfReportLink?: string;
+  imageUrl?: string;
   featured?: boolean;
   order?: number;
-  lastUpdated?: Date | string;
-  description?: string;
-  tags?: string[];
-  image?: string;
+  tagline?: string;
+  topic?: string;
+  markdownDescription?: string;
+  lastUpdated?: number | Date | string;
   link?: string;
   github?: string;
-  [key: string]: unknown;
+  tags?: string[];
+  image?: string;
 }
 
 export interface ContactFormData {

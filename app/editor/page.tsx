@@ -52,24 +52,25 @@ function EditorPage() {
     if (projectId && user) {
       loadProject();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, user]);
 
-  const loadProject = async () => {
+    const loadProject = async () => {
     try {
       const project = await getProject(projectId!);
       if (project) {
         setFormData({
           title: project.title,
-          description: project.description,
-          techStack: project.techStack.join(', '),
-          gitLink: project.gitLink,
-          pdfReportLink: project.pdfReportLink,
-          imageUrl: project.imageUrl,
+          description: project.description ?? '', // Fallback to empty string
+          techStack: (project.techStack as string[] ?? []).join(', '), // Ensure techStack exists
+          gitLink: (project.gitLink as string) ?? '',
+          pdfReportLink: (project.pdfReportLink as string) ?? '',
+          imageUrl: (project.imageUrl as string) ?? '',
           featured: project.featured || false,
           order: project.order || 0,
-          tagline: project.tagline || '',
-          topic: project.topic || '',
-          markdownDescription: project.markdownDescription || '',
+          tagline: (project.tagline as string) ?? '',
+          topic: (project.topic as string) ?? '',
+          markdownDescription: (project.markdownDescription as string) ?? '',
         });
       }
     } catch (error) {
@@ -115,7 +116,13 @@ function EditorPage() {
 
       // Warn user if duplicates were removed
       if (uniqueTechStack.length < techStackArray.length) {
-        toast.warning(`Removed ${techStackArray.length - uniqueTechStack.length} duplicate tag(s)`);
+        toast(`Removed ${techStackArray.length - uniqueTechStack.length} duplicate tag(s)`, {
+          icon: '⚠️',
+          style: {
+            background: '#fef3c7',
+            color: '#92400e',
+          },
+        });
       }
 
       const projectData: Omit<Project, 'id' | 'lastUpdated'> = {
@@ -136,7 +143,7 @@ function EditorPage() {
         await updateProject(projectId, projectData);
         toast.success('Project updated successfully');
       } else {
-        const newProjectId = await addProject(projectData);
+        await addProject(projectData);
         toast.success('Project created successfully');
       }
 

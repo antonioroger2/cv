@@ -13,6 +13,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     loadProject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   const loadProject = async () => {

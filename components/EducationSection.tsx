@@ -1,6 +1,6 @@
 'use client';
 
-import { Education } from '@/Portfolio';
+import { Education } from '@/lib/types';
 import { motion } from 'framer-motion';
 import { GraduationCap, Calendar, Award } from 'lucide-react';
 

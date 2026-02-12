@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronLeft, 
@@ -278,41 +278,36 @@ export default function ProjectsCarousel({
   // Calculate limits
   // maxScrollIndex represents the starting index of the last full view
   const maxScrollIndex = Math.max(0, safeProjects.length - cardsPerView);
-  const totalPages = Math.ceil(safeProjects.length / cardsPerView);
-
-  /* ----------------------------- AUTO SCROLL ----------------------------- */
-
-  /* ----------------------------- AUTO SCROLL ----------------------------- */
-
-useEffect(() => {
-  if (isPaused || safeProjects.length <= cardsPerView) return;
-
-  autoScrollRef.current = setInterval(() => {
-    goToNext(); // This now uses the reset logic defined above
-  }, AUTO_SCROLL_INTERVAL);
-
-  return () => {
-    if (autoScrollRef.current) clearInterval(autoScrollRef.current);
-  };
-}, [isPaused, maxScrollIndex, cardsPerView, safeProjects.length]);
 
   /* ----------------------------- NAVIGATION ----------------------------- */
 
-const goToNext = () => {
-  setCurrentIndex((prev) => {
-    // If we're at or past the max index, reset to 0
-    if (prev >= maxScrollIndex) return 0;
-    return Math.min(prev + cardsPerView, maxScrollIndex);
-  });
-};
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) => {
+      if (prev >= maxScrollIndex) return 0;
+      return Math.min(prev + cardsPerView, maxScrollIndex);
+    });
+  }, [maxScrollIndex, cardsPerView]);
 
-const goToPrev = () => {
-  setCurrentIndex((prev) => {
-    // If we're at the beginning, jump to the last possible index
-    if (prev <= 0) return maxScrollIndex;
-    return Math.max(prev - cardsPerView, 0);
-  });
-};
+  const goToPrev = () => {
+    setCurrentIndex((prev) => {
+      if (prev <= 0) return maxScrollIndex;
+      return Math.max(prev - cardsPerView, 0);
+    });
+  };
+
+  /* ----------------------------- AUTO SCROLL ----------------------------- */
+
+  useEffect(() => {
+    if (isPaused || safeProjects.length <= cardsPerView) return;
+
+    autoScrollRef.current = setInterval(() => {
+      goToNext();
+    }, AUTO_SCROLL_INTERVAL);
+
+    return () => {
+      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+    };
+  }, [isPaused, maxScrollIndex, cardsPerView, safeProjects.length, goToNext]);
 
   /* ----------------------------- BODY SCROLL LOCK ----------------------------- */
 
@@ -340,7 +335,7 @@ const goToPrev = () => {
           Coming Soon
         </h3>
         <p className="text-sm text-text-muted max-w-md mx-auto">
-          New projects are currently in development. Check back soon to see what we're building!
+          New projects are currently in development. Check back soon to see what we&apos;re building!
         </p>
       </div>
     );
@@ -349,7 +344,6 @@ const goToPrev = () => {
   /* ----------------------------- RENDER LOGIC ----------------------------- */
 
   const visibleProjects = safeProjects.slice(currentIndex, currentIndex + cardsPerView);
-  const currentPage = Math.floor(currentIndex / cardsPerView);
 
   return (
     <>

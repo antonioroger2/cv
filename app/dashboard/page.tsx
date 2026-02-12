@@ -18,7 +18,7 @@ function DashboardPage() {
   const router = useRouter();
   const [submissions, setSubmissions] = useState<ContactFormData[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -159,8 +159,8 @@ function DashboardPage() {
                   </div>
                 </div>
                 <div className="flex gap-4 text-sm">
-                  {project.github && (
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-400 hover:text-blue-400">
+                  {project.gitLink && (
+                    <a href={project.gitLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-400 hover:text-blue-400">
                       <Github size={16} />
                       <span>GitHub</span>
                     </a>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Certification } from '@/Portfolio';
+import { Certification } from '@/lib/types';
 import { motion } from 'framer-motion';
 import { Award, Calendar, ExternalLink } from 'lucide-react';
 

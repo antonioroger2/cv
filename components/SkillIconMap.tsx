@@ -5,9 +5,9 @@ import { Code } from 'lucide-react';
 import {
   SiPython, SiReact, SiNextdotjs, SiDocker,
   SiTensorflow, SiPytorch, SiJavascript,
-  SiTypescript, SiFlutter, SiKotlin, SiSwift,
-  SiLinux, SiGit, SiGithub, SiFirebase, SiAmazon,
-  SiC, SiCplusplus, SiMongodb, SiMysql, SiArduino,
+  SiTypescript, SiFlutter,
+  SiGit, SiGithub, SiFirebase, SiAmazon,
+  SiC, SiMongodb, SiMysql, SiArduino,
   SiRaspberrypi, SiScikitlearn, SiOpencv, SiNodedotjs,
   SiPostgresql, SiRedis, SiVercel, SiExpress, SiFlask,
   SiEsphome, SiEspressif, SiGo, SiKeras, SiNumpy, 

@@ -3,7 +3,7 @@
 import { Project } from '@/lib/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Github, FileText, Calendar, Tag, Code, ExternalLink } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 interface Props {
   project: Project;
@@ -11,40 +11,33 @@ interface Props {
 }
 
 export default function ProjectDetailModal({ project, onClose }: Props) {
-  const [renderedMarkdown, setRenderedMarkdown] = useState<string>('');
+  const renderedMarkdown = useMemo(() => {
+    if (!project.markdownDescription) return '';
+    let html = project.markdownDescription
+      // Headers
+      .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mb-2">$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2 class="text-xl font-semibold mb-3">$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mb-4">$1</h1>')
+      // Bold and italic
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      // Code blocks
+      .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg my-3 overflow-x-auto"><code>$1</code></pre>')
+      .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">$1</code>')
+      // Links
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">$1</a>')
+      // Lists
+      .replace(/^\* (.*$)/gim, '<li class="ml-4">• $1</li>')
+      .replace(/^\d+\. (.*$)/gim, '<li class="ml-4">$1</li>')
+      // Line breaks
+      .replace(/\n\n/g, '</p><p class="mb-3">')
+      .replace(/\n/g, '<br>');
 
-  useEffect(() => {
-    // Simple Markdown renderer (basic implementation)
-    // In production, consider using react-markdown for better rendering
-    if (project.markdownDescription) {
-      let html = project.markdownDescription
-        // Headers
-        .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mb-2">$1</h3>')
-        .replace(/^## (.*$)/gim, '<h2 class="text-xl font-semibold mb-3">$1</h2>')
-        .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mb-4">$1</h1>')
-        // Bold and italic
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        // Code blocks
-        .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg my-3 overflow-x-auto"><code>$1</code></pre>')
-        .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">$1</code>')
-        // Links
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">$1</a>')
-        // Lists
-        .replace(/^\* (.*$)/gim, '<li class="ml-4">• $1</li>')
-        .replace(/^\d+\. (.*$)/gim, '<li class="ml-4">$1</li>')
-        // Line breaks
-        .replace(/\n\n/g, '</p><p class="mb-3">')
-        .replace(/\n/g, '<br>');
-
-      // Wrap in paragraph if not already wrapped
-      if (!html.startsWith('<')) {
-        html = `<p class="mb-3">${html}</p>`;
-      }
-
-      setRenderedMarkdown(html);
+    if (!html.startsWith('<')) {
+      html = `<p class="mb-3">${html}</p>`;
     }
-  }, [project]);
+    return html;
+  }, [project.markdownDescription]);
 
   return (
     <AnimatePresence>
@@ -120,7 +113,7 @@ export default function ProjectDetailModal({ project, onClose }: Props) {
                     Technologies
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech, i) => (
+                    {(project.techStack ?? []).map((tech, i) => (
                       <span
                         key={`${project.id}-${tech}-${i}`}
                         className="skill-tag"
@@ -160,7 +153,7 @@ export default function ProjectDetailModal({ project, onClose }: Props) {
 
                 <div className="flex items-center gap-2 text-sm text-text-muted">
                   <Calendar size={16} />
-                  <span>Last updated: {new Date(project.lastUpdated * 1000).toLocaleDateString()}</span>
+                  <span>Last updated: {project.lastUpdated ? new Date(typeof project.lastUpdated === 'number' ? project.lastUpdated * 1000 : project.lastUpdated).toLocaleDateString() : 'N/A'}</span>
                 </div>
               </div>
 
