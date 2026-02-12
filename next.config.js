@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', //static export
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -8,9 +10,8 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['undici'],
-  },
+
+  serverExternalPackages: ['undici'], 
 }
 
 module.exports = nextConfig
