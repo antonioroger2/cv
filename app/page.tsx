@@ -59,7 +59,7 @@ export default function Home() {
 
   // Load static identity data
   useEffect(() => {
-    fetch('/data/identity.json')
+    fetch('./data/identity.json')
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load identity data: ${res.status}`);
         return res.json();
