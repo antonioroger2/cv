@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export', //static export - commented out for dev
-  // basePath: '/cv', // commented out for dev
+  output: 'export',
   images: {
     unoptimized: true,
     remotePatterns: [

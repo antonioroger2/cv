@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Added environment here so the build step can see your Firebase secrets
+    environment: github-pages 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
