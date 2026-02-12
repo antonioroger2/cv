@@ -76,25 +76,22 @@ export default function ReportPage({ params }: { params: { id: string } }) {
 
           <a
             href={project.pdfReportLink}
-            target="_blank"
-            rel="noopener noreferrer"
+            download
             className="flex items-center gap-2 btn-secondary text-sm py-2"
           >
             <ExternalLink size={16} />
-            <span className="hidden sm:inline">Open in New Tab</span>
+            <span className="hidden sm:inline">Download Report</span>
           </a>
         </div>
       </div>
 
-      {/* PDF Viewer */}
-      <div className="flex-1 p-4">
-        <div className="h-full max-w-7xl mx-auto">
-          <iframe
-            src={project.pdfReportLink}
-            className="w-full h-full rounded-2xl border border-slate-800 bg-white"
-            style={{ minHeight: 'calc(100vh - 120px)' }}
-            title={`${project.title} Report`}
-          />
+      {/* Report Download */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Project Report</h2>
+          <p className="text-slate-400 mb-6">
+            Click the download button above to access the PDF report for this project.
+          </p>
         </div>
       </div>
     </div>
