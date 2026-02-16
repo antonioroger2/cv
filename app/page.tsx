@@ -271,7 +271,7 @@ export default function Home() {
             
             <div className="flex items-center gap-2 text-xs text-text-muted/60">
               <a
-                href="https://github.com/antonioroger4/portfolio"
+                href="https://github.com/antonioroger2/cv"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:opacity-80 transition"

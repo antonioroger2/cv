@@ -92,8 +92,8 @@
       "issuer": "Nasscom Foundation - ThingQbator",
       "issueDate": "Apr 2025",
       "description": "We made it into the Top 20 finalists of Cisco's ThingQbator Cohort 7 and finished as Runners-Up. What started as a fun idea turned into a serious build after weeks of iteration. This journey opened doors to NASSCOM Foundation incubation support, and we're now officially MCA registered startup.",
-      "certificateUrl": "/certificates/cisco-certificate.pdf",
-      "logo": "/logos/cisco.png"
+      "certificateUrl": "data/certificates/cisco-certificate.pdf",
+      "logo": "data/logos/cisco.png"
     }
   ],
   "careerObjective": "Passionate about leveraging AI/ML and modern web technologies to solve real-world problems. Seeking opportunities to work on innovative projects that make a difference.",
@@ -105,7 +105,7 @@
     "whatsapp": "https://wa.me/918531920426",
     "instagram": "https://instagram.com/antOn.28"
   },
-  "resume": "/resume.pdf",
+  "resume": "data/resume.pdf",
   "skills": [
     "Python",
     "TensorFlow",

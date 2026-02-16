@@ -18,17 +18,18 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://your-domain.com'),
+
+  metadataBase: new URL('https://antonioroger2.github.io/cv'), 
   title: 'Portfolio | AI/ML Engineer & Full Stack Developer',
-  description: 'Professional portfolio showcasing AI/ML projects, web development, and innovative solutions',
-  keywords: ['AI', 'Machine Learning', 'Full Stack Developer', 'React', 'Node.js', 'Python', 'Portfolio'],
+  description: 'Professional portfolio showcasing AI/ML projects, web development, and innovative solutions | Student Amrita University Coimbatore',
+  keywords: ['AI', 'Machine Learning', 'Full Stack Developer', 'React', 'Node.js', 'Python', 'Portfolio', 'Amrita University', 'Coimbatore', 'Projects', 'Professional Experience','Amrita Vishwa Vidyapeetham','Student','Department of AI'],
   authors: [{ name: 'Antonio Roger' }],
   creator: 'Antonio Roger',
   publisher: 'Antonio Roger',
   openGraph: {
     title: 'Antonio Roger | AI/ML Engineer & Full Stack Developer',
     description: 'Professional portfolio showcasing AI/ML projects, web development, and innovative solutions',
-    url: 'https://your-domain.com',
+    url: 'https://antonioroger2.github.io/cv', // 2. Updated URL
     siteName: 'Antonio Roger Portfolio',
     images: [
       {
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
     title: 'Portfolio | AI/ML Engineer & Full Stack Developer',
     description: 'Professional portfolio showcasing AI/ML projects, web development, and innovative solutions',
     images: ['/data/avatar.jpg'],
-    creator: '@your-twitter-handle',
+    creator: '@antonioroger2', 
   },
   robots: {
     index: true,
@@ -60,10 +61,9 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: 'google043fe67c63ee76c0.html', 
   },
 };
-
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,

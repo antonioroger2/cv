@@ -8,8 +8,7 @@ import { motion } from 'framer-motion';
 const useMounted = () => {
   const [mounted, setMounted] = useState(false);
   if (typeof window !== 'undefined' && !mounted) {
-    // This runs during rendering (not in an effect) so it's safe
-    // We use a state initializer trick: on first client render, set mounted
+
     Promise.resolve().then(() => setMounted(true));
   }
   return mounted;
