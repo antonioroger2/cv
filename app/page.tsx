@@ -57,9 +57,10 @@ export default function Home() {
   const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
 
-  // Load static identity data
+  const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   useEffect(() => {
-    fetch('./data/identity.json')
+    fetch(`${BASE_PATH}/data/identity.json`)
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load identity data: ${res.status}`);
         return res.json();

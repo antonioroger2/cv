@@ -17,7 +17,7 @@ import { Project, ContactFormData } from '@/lib/types';
 export const getProjects = (callback: (projects: Project[]) => void, forceRefresh = false) => {
   const cacheKey = 'projects_cache';
   const cacheExpiryKey = 'projects_cache_expiry';
-  const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+  const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours 
 
   // Check cache if not forcing refresh
   if (!forceRefresh) {
@@ -28,7 +28,7 @@ export const getProjects = (callback: (projects: Project[]) => void, forceRefres
       if (cached && expiry && Date.now() < parseInt(expiry)) {
         const projects = JSON.parse(cached);
         callback(projects);
-        return () => {}; // Return empty unsubscribe function
+        return () => {}; 
       }
     } catch (error) {
       console.warn('Error reading projects cache:', error);
