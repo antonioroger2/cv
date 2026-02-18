@@ -2,8 +2,10 @@
 
 import { useEffect, useState, useRef, ReactNode } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { IdentityData, Project } from '@/lib/types';
+import { Project } from '@/lib/types';
 import { getProjects } from '@/lib/database';
+import identity from '@/lib/identity.json'; 
+
 import ProjectsCarousel from '@/components/ProjectsCarousel';
 import FloatingAdminButton from '@/components/FloatingAdminButton';
 import ThemeToggle from '@/components/ThemeToggle';
@@ -15,16 +17,11 @@ import CertificationsSection from '@/components/CertificationsSection';
 import AchievementsSection from '@/components/AchievementsSection';
 import ProfileHeader from '@/components/ProfileAbout';
 
-// --- Custom Component for Dual-Threshold Reveal ---
 function ScrollReveal({ children, id, className = "" }: { children: ReactNode, id?: string, className?: string }) {
   const ref = useRef(null);
   const controls = useAnimation();
-  
-  // 1. Trigger Fade IN when >= 40% visible
   const isVisible = useInView(ref, { amount: 0.4, once: false });
-  
-  // 2. Trigger Fade OUT when < 25% visible (hysteresis)
-  const isStillInZone = useInView(ref, { amount: 0.15, once: false });
+  const isStillInZone = useInView(ref, { amount: 0.05, once: false });
 
   useEffect(() => {
     if (isVisible) {
@@ -49,70 +46,53 @@ function ScrollReveal({ children, id, className = "" }: { children: ReactNode, i
 }
 
 export default function Home() {
-  const [identity, setIdentity] = useState<IdentityData | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [, setError] = useState<string | null>(null);
+  const [projectsLoading, setProjectsLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useAuth();
+  const isMountedRef = useRef(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
-
   useEffect(() => {
-    fetch(`${BASE_PATH}/data/identity.json`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load identity data: ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        setIdentity(data);
-        setLoading(false);
-        setError(null);
-      })
-      .catch((error) => {
-        console.error('Error loading identity data:', error);
-        setError('Failed to load profile information. Please refresh the page.');
-        setLoading(false);
-      });
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
 
   useEffect(() => {
+    let isMounted = true; // Fix for "Can't perform state update"
+
     const unsubscribe = getProjects((projectsData) => {
-      setProjects(projectsData);
-      setRefreshing(false);
+      if (isMounted) {
+        setProjects(projectsData);
+        setProjectsLoading(false);
+        setRefreshing(false);
+      }
     });
-    return () => unsubscribe();
+
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, []);
 
   const handleRefreshProjects = () => {
     setRefreshing(true);
     const unsubscribe = getProjects((projectsData) => {
-      setProjects(projectsData);
-      setRefreshing(false);
+      if (isMountedRef.current) {
+        setProjects(projectsData);
+        setRefreshing(false);
+      }
     }, true);
     setTimeout(() => unsubscribe(), 1000);
   };
 
-  if (loading || !identity) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-accent-primary/10 via-accent-secondary/10 to-accent-tertiary/10">
-        <div className="text-center">
-          <div className="spinner mx-auto mb-4"></div>
-          <p className="text-text-secondary animate-pulse">Loading portfolio...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Define common section classes for snapping
   const sectionClass = "snap-start snap-always min-h-screen flex items-center py-16 px-6 lg:px-8";
 
   return (
-    // Root container with scroll snapping enabled
     <div className="h-screen overflow-y-auto snap-y snap-mandatory bg-gradient-to-br from-bg-primary via-bg-secondary/50 to-bg-primary scroll-smooth">
       
-      {/* Animated Background Elements - Fixed position relative to viewport */}
+      {/* Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-20 left-10 w-72 h-72 bg-accent-primary/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
@@ -141,14 +121,14 @@ export default function Home() {
 
       <main className="relative z-10">
         
-        {/* 1. Hero / About Section */}
-        <section className={`${sectionClass} pt-24`}> {/* Extra padding top for Nav */}
+        {/* About */}
+        <section className={`${sectionClass} pt-24`}> 
           <div className="w-full max-w-6xl mx-auto" id="about">
             <ProfileHeader identity={identity} />
           </div>
         </section>
 
-        {/* 2. Projects Section */}
+        {/* Projects */}
         <section className={sectionClass}>
           <ScrollReveal id="projects">
             <div className="max-w-6xl mx-auto">
@@ -161,7 +141,9 @@ export default function Home() {
                   {refreshing ? 'Refreshing…' : '↻ Refresh'}
                 </button>
               </div>
-              {projects.length === 0 ? (
+              {projectsLoading ? (
+                 <div className="text-center p-12 text-text-muted">Loading projects...</div>
+              ) : projects.length === 0 ? (
                 <div className="card-glass p-12 text-center">
                   <h3 className="text-lg font-semibold">Coming Soon</h3>
                 </div>
@@ -172,9 +154,7 @@ export default function Home() {
           </ScrollReveal>
         </section>
 
-        {/* 3. Dynamic Sections */}
-        {/* Note: We removed AnimatePresence mode='wait' because scroll snapping works best when content exists naturally in the DOM */}
-        
+        {/* Dynamic Sections */}
         {identity.education && (
           <section className={sectionClass}>
             <ScrollReveal id="education">
@@ -207,21 +187,18 @@ export default function Home() {
           </section>
         )}
 
-        {/* 4. Contact Section */}
+        {/* Contact */}
         <section className={`${sectionClass} pb-24`} id="contact">
           <ScrollReveal>
             <div className="max-w-4xl mx-auto text-center">
               <div className="card-glass relative overflow-hidden p-8 md:p-16 border border-white/10 rounded-3xl backdrop-blur-md">
                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
-                
                 <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6 tracking-tight">
                   Start a <span className="text-gradient">conversation?</span>
                 </h2>
-                
                 <p className="text-lg md:text-xl text-text-secondary mb-10 max-w-2xl mx-auto leading-relaxed">
                   Whether you have a specific project in mind or just want to say hi, my inbox is always open.
                 </p>
-
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
                   <motion.a 
                     href={`mailto:${identity.social.email}`} 
@@ -231,7 +208,6 @@ export default function Home() {
                   >
                     <span>Get In Touch</span>
                   </motion.a>
-                  
                   <motion.a 
                     href={identity.resume} 
                     className="btn-ghost w-full sm:w-auto px-8 py-4 rounded-full font-semibold border border-border-light hover:bg-white/5"
@@ -242,7 +218,6 @@ export default function Home() {
                     View Resume
                   </motion.a>
                 </div>
-
                 <div className="flex flex-wrap justify-center items-center gap-8 pt-8 border-t border-white/5">
                   {Object.entries(identity.social).map(([platform, url]) => (
                     url && platform !== 'email' && (
@@ -263,20 +238,14 @@ export default function Home() {
           </ScrollReveal>
         </section>
 
-        {/* Footer - Snaps to bottom */}
+        {/* Footer */}
         <section className="snap-start snap-always py-10 px-6 border-t border-border-light/30 bg-bg-primary">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-text-muted text-sm">
               <span className="font-semibold text-text-secondary">{identity.name}</span>.
             </div>
-            
             <div className="flex items-center gap-2 text-xs text-text-muted/60">
-              <a
-                href="https://github.com/antonioroger2/cv"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:opacity-80 transition"
-              >
+              <a href="https://github.com/antonioroger2/cv" target="_blank" className="underline hover:opacity-80 transition">
                 Built with
               </a>
               <span className="px-2 py-1 bg-white/5 rounded text-text-secondary">Next.js</span>

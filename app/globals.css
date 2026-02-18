@@ -1,49 +1,82 @@
 @import "tailwindcss";
 
 @theme {
+  /* ------------------------------------------------ */
+  /* 1. MAPPING SEMANTIC VARIABLES                    */
+  /* ------------------------------------------------ */
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);
   --color-bg-tertiary: var(--bg-tertiary);
+  
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
+  
   --color-accent-primary: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
   --color-accent-tertiary: var(--accent-tertiary);
+  
   --color-border-light: var(--border-light);
   --color-border-medium: var(--border-medium);
-  --color-neu-light: #e0e5ec;
-  --color-neu-dark: #1e293b;
-  --color-primary: #10B981;
+
+  /* ------------------------------------------------ */
+  /* 2. NEUMORPHIC COLORS                             */
+  /* ------------------------------------------------ */
+  /* Light Mode: crisp white/gray base */
+  --color-neu-light: #f5f5f5; 
+  /* Dark Mode: deep charcoal/teal blend */
+  --color-neu-dark: #134e4a;  
+
+  /* ------------------------------------------------ */
+  /* 3. PRIMARY: DARK ABYSSAL TEAL                    */
+  /* ------------------------------------------------ */
+  /* Base: #0f766e (Teal 700) - Strong, corporate, dark */
+  --color-primary: #0f766e;
   --color-primary-foreground: #ffffff;
-  --color-primary-50: #ecfdf5;
-  --color-primary-100: #d1fae5;
-  --color-primary-200: #a7f3d0;
-  --color-primary-300: #6ee7b7;
-  --color-primary-400: #34d399;
-  --color-primary-500: #10B981;
-  --color-primary-600: #059669;
-  --color-primary-700: #047857;
-  --color-primary-800: #065f46;
-  --color-primary-900: #064e3b;
-  --color-accent-50: #fdf4ff;
-  --color-accent-100: #fae8ff;
-  --color-accent-200: #f5d0fe;
-  --color-accent-300: #f0abfc;
-  --color-accent-400: #e879f9;
-  --color-accent-500: #d946ef;
-  --color-accent-600: #c026d3;
-  --color-accent-700: #a21caf;
-  --color-accent-800: #86198f;
-  --color-accent-900: #701a75;
+  
+  /* A slightly desaturated, deeper teal scale */
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #5eead4;
+  --color-primary-400: #2dd4bf;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e; /* Main Brand Color */
+  --color-primary-800: #115e59;
+  --color-primary-900: #134e4a;
+
+  /* ------------------------------------------------ */
+  /* 4. ACCENT: BURNT ORANGE                          */
+  /* ------------------------------------------------ */
+  /* Base: #ea580c (Orange 600) - High energy, non-neon */
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c; /* Main Pop Color */
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
+
+  /* ------------------------------------------------ */
+  /* 5. TYPOGRAPHY & EFFECTS                          */
+  /* ------------------------------------------------ */
   --font-family-sans: var(--font-poppins), system-ui, sans-serif;
   --font-family-display: var(--font-playfair), serif;
-  --box-shadow-neu-light: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255, 0.5);
-  --box-shadow-neu-light-pressed: inset 6px 6px 10px 0 rgb(163,177,198, 0.7), inset -6px -6px 10px 0 rgba(255,255,255, 0.8);
-  --box-shadow-neu-dark: 4px 4px 8px rgba(0,0,0,0.3), -4px -4px 8px rgba(255,255,255,0.05);
-  --box-shadow-neu-dark-pressed: inset 3px 3px 6px rgba(0,0,0,0.4), inset -3px -3px 6px rgba(255,255,255,0.05);
-  --box-shadow-neumorphic: 8px 8px 16px rgba(0, 0, 0, 0.25), -8px -8px 16px rgba(255, 255, 255, 0.05);
-  --box-shadow-neumorphic-inset: inset 6px 6px 12px rgba(0, 0, 0, 0.25), inset -6px -6px 12px rgba(255, 255, 255, 0.05);
+
+  /* Shadows: Sharp and professional */
+  --box-shadow-neu-light: 9px 9px 16px rgba(0, 0, 0, 0.08), -9px -9px 16px rgba(255, 255, 255, 1);
+  --box-shadow-neu-light-pressed: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.06), inset -6px -6px 10px 0 rgba(255,255,255, 1);
+  
+  --box-shadow-neu-dark: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.03);
+  --box-shadow-neu-dark-pressed: inset 4px 4px 8px rgba(0, 0, 0, 0.6), inset -4px -4px 8px rgba(255, 255, 255, 0.03);
+
+  --box-shadow-neumorphic: 8px 8px 16px rgba(0, 0, 0, 0.15), -8px -8px 16px rgba(255, 255, 255, 0.8);
+  --box-shadow-neumorphic-inset: inset 6px 6px 12px rgba(0, 0, 0, 0.15), inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+
   --animation-float: float 6s ease-in-out infinite;
   --animation-float-delayed: float 6s ease-in-out infinite 3s;
 }
@@ -52,49 +85,64 @@
   :root {
     --font-poppins: 'Poppins', sans-serif;
     --font-playfair: 'Playfair Display', serif;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-tertiary: #f1f5f9;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #64748b;
-    --accent-primary: #3b82f6;
-    --accent-secondary: #06b6d4;
-    --accent-tertiary: #10b981;
-    --border-light: #e2e8f0;
+
+    /* -------------------------------- */
+    /* LIGHT MODE: Professional Blue/Grey */
+    /* -------------------------------- */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --bg-tertiary: #e5e7eb;
+
+    --text-primary: #000000;      /* Pure black for high contrast */
+    --text-secondary: #374151;    /* Gray-700 */
+    --text-muted: #6b7280;        /* Gray-500 */
+
+    --accent-primary: #2563eb;
+    --accent-secondary: #38bdf8;
+    --accent-tertiary: #818cf8;
+
+    --border-light: #e5e7eb;
     --border-medium: #cbd5e1;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+
+    --shadow-sm: 0 1px 2px 0 rgba(30, 41, 59, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(30, 41, 59, 0.1), 0 2px 4px -2px rgba(30, 41, 59, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(30, 41, 59, 0.1), 0 4px 6px -4px rgba(30, 41, 59, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(30, 41, 59, 0.1), 0 8px 10px -6px rgba(30, 41, 59, 0.1);
+
+    --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1e293b 100%);
+    --gradient-secondary: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    --gradient-accent: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
   }
 
-
-
   .dark {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-    --accent-primary: #60a5fa;
-    --accent-secondary: #22d3ee;
-    --accent-tertiary: #34d399;
-    --border-light: #334155;
-    --border-medium: #475569;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    /* -------------------------------- */
+    /* DARK MODE: Professional Blue/Grey*/
+    /* -------------------------------- */
+    --bg-primary: #181c20;   /* Deep blue-gray */
+    --bg-secondary: #23272f; /* Slightly lighter blue-gray */
+    --bg-tertiary: #2d333b;  /* Card/section background */
+
+    --text-primary: #ffffff;      /* Pure white for high contrast */
+    --text-secondary: #d1d5db;    /* Gray-300 */
+    --text-muted: #9ca3af;        /* Gray-400 */
+
+    --accent-primary: #2563eb;    /* Professional blue */
+    --accent-secondary: #38bdf8;  /* Sky blue */
+    --accent-tertiary: #818cf8;   /* Indigo blue */
+
+    --border-light: #23272f;
+    --border-medium: #2d333b;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.7);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.7), 0 2px 4px -2px rgb(0 0 0 / 0.7);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.7), 0 4px 6px -4px rgb(0 0 0 / 0.7);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.7), 0 8px 10px -6px rgb(0 0 0 / 0.7);
   }
 
   * {
     border-color: var(--border-light);
   }
+
 
   html {
     scroll-behavior: smooth;
@@ -161,7 +209,7 @@
   }
 
   .dark .card-glass {
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(15, 23, 42, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
@@ -212,6 +260,13 @@
   /* Text Styles */
   .text-gradient {
     background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dark .text-gradient {
+    background: linear-gradient(90deg, #fff 0%, #a5b4fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -303,7 +358,7 @@
   }
 
   .dark .nav-blur {
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(15, 23, 42, 0.665);
     border-bottom: 1px solid var(--border-medium);
   }
 

@@ -1,6 +1,11 @@
 // lib/metadata.ts
 import type { Metadata } from 'next';
 
+
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const SITE_URL = BASE_PATH ? `https://antonioroger2.github.io${BASE_PATH}` : 'http://localhost:3000';
+const AVATAR_URL = `${BASE_PATH}/data/avatar.jpg`;
+
 export const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -8,8 +13,8 @@ export const jsonLd = {
       '@type': 'Person',
       name: 'Antonio Roger',
       alternateName: ['Antonio Rogers Prince','Antonio Roger'],
-      url: 'https://antonioroger2.github.io/cv/',
-      image: 'https://antonioroger2.github.io/cv/data/avatar.jpg',
+      url: SITE_URL + '/',
+      image: SITE_URL + '/data/avatar.jpg',
       jobTitle: 'AI/ML Engineer & Full Stack Developer',
       alumniOf: {
         '@type': 'CollegeOrUniversity',
@@ -28,13 +33,13 @@ export const jsonLd = {
     {
       '@type': 'WebSite',
       name: 'Antonio Roger Portfolio',
-      url: 'https://antonioroger2.github.io/cv/',
+      url: SITE_URL + '/',
     }
   ]
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://antonioroger2.github.io/cv/'),
+  metadataBase: new URL(SITE_URL + '/'),
   title: 'Antonio Roger | AI Student & Full Stack Developer',
   description: 'Antonio Roger - Artificial Intelligence undergraduate at Amrita Vishwa Vidyapeetham, Coimbatore, India. Professional portfolio showcasing AI/ML projects, web development, and innovative solutions | Student Amrita University Coimbatore.',
   keywords: ['Antonio Roger','Antonio Roger Coimbatore','Antonio Roger Amrita University','Antonio Roger Amrita','Roger Amrita University','Antonio Amrita Coimbatore','Antonio AI', 'Roger Developer','AI Undergraduate Amrita Vishwa Vidyapeetham','Amrita University Coimbatore','Antonio Roger Developer Portfolio'], 
@@ -42,16 +47,16 @@ export const metadata: Metadata = {
   creator: 'Antonio Roger',
   publisher: 'Antonio Roger',
   alternates: {
-    canonical: 'https://antonioroger2.github.io/cv',
+    canonical: SITE_URL,
   },
   openGraph: {
     title: 'Antonio Roger | AI Student & Full Stack Developer',
     description: 'Antonio Roger - Artificial Intelligence undergraduate at Amrita Vishwa Vidyapeetham, Coimbatore, India. Professional portfolio showcasing AI/ML projects, web development, and innovative solutions | Student Amrita University Coimbatore.',
-    url: 'https://antonioroger2.github.io/cv/',
+    url: SITE_URL + '/',
     siteName: 'Antonio Roger Portfolio',
     images: [
       {
-        url: 'https://antonioroger2.github.io/cv/data/avatar.jpg',
+        url: SITE_URL + '/data/avatar.jpg',
         width: 1200,
         height: 630,
       },

@@ -10,8 +10,31 @@ interface CertificationsSectionProps {
 
 export default function CertificationsSection({ certifications }: CertificationsSectionProps) {
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    const cleanDate = dateString.replace(/\(Present\)$/, '');
+    const parsed = Date.parse(cleanDate);
+    if (!Number.isNaN(parsed)) {
+      const date = new Date(parsed);
+      const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+      if (date > new Date()) {
+        return `${formatted}(Present)`;
+      }
+      return formatted;
+    }
+
+    const match = cleanDate.match(/^([A-Za-z]{3,})\s+(\d{4})$/);
+    if (match) {
+      const fallbackParsed = Date.parse(`${match[1]} 01, ${match[2]}`);
+      if (!Number.isNaN(fallbackParsed)) {
+        const date = new Date(fallbackParsed);
+        const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        if (date > new Date()) {
+          return `${formatted}(Present)`;
+        }
+        return formatted;
+      }
+    }
+
+    return dateString;
   };
 
   return (

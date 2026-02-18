@@ -10,16 +10,27 @@ interface EducationSectionProps {
 
 export default function EducationSection({ education }: EducationSectionProps) {
   const formatDate = (dateString: string) => {
-    const parsed = Date.parse(dateString);
+    const cleanDate = dateString.replace(/\(Present\)$/, '');
+    const parsed = Date.parse(cleanDate);
     if (!Number.isNaN(parsed)) {
-      return new Date(parsed).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+      const date = new Date(parsed);
+      const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+      if (date > new Date()) {
+        return `${formatted}(Present)`;
+      }
+      return formatted;
     }
 
-    const match = dateString.match(/^([A-Za-z]{3,})\s+(\d{4})$/);
+    const match = cleanDate.match(/^([A-Za-z]{3,})\s+(\d{4})$/);
     if (match) {
       const fallbackParsed = Date.parse(`${match[1]} 01, ${match[2]}`);
       if (!Number.isNaN(fallbackParsed)) {
-        return new Date(fallbackParsed).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        const date = new Date(fallbackParsed);
+        const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        if (date > new Date()) {
+          return `${formatted}(Present)`;
+        }
+        return formatted;
       }
     }
 

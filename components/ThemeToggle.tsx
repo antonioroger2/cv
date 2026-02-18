@@ -2,15 +2,16 @@
 
 import { useTheme } from 'next-themes';
 import { Sun, Moon, Monitor } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const useMounted = () => {
   const [mounted, setMounted] = useState(false);
-  if (typeof window !== 'undefined' && !mounted) {
 
-    Promise.resolve().then(() => setMounted(true));
-  }
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return mounted;
 };
 
