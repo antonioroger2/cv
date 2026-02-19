@@ -84,7 +84,7 @@ export default function Home() {
     };
 
     // Wait 1.5 seconds to let the vital UI render first
-    const timer = setTimeout(loadProjects, 150);
+    const timer = setTimeout(loadProjects, 1500);
 
     return () => {
       isMounted = false;
