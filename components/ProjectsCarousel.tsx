@@ -12,7 +12,8 @@ import {
   FolderGit2, 
   Eye, 
   Edit3, 
-  Trash2 
+  Trash2,
+  X // Added X for a consistent modal close button
 } from 'lucide-react';
 import Link from 'next/link';
 import { Project } from '@/lib/types';
@@ -20,10 +21,10 @@ import ProjectDetailModal from './ProjectDetailModal';
 import { deleteProject } from '@/lib/database';
 
 /* -------------------------------------------------------------------------- */
-/* CONFIG                                   */
+/* CONFIG                                                                      */
 /* -------------------------------------------------------------------------- */
 
-const AUTO_SCROLL_INTERVAL = 5000; // 5 seconds
+const AUTO_SCROLL_INTERVAL = 5000;
 const CARDS_PER_VIEW = {
   mobile: 1,
   tablet: 2,
@@ -31,7 +32,7 @@ const CARDS_PER_VIEW = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* MEDIA QUERY HOOK                             */
+/* MEDIA QUERY HOOK                                                            */
 /* -------------------------------------------------------------------------- */
 
 function useMediaQuery(query: string) {
@@ -39,13 +40,10 @@ function useMediaQuery(query: string) {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     const media = window.matchMedia(query);
     const listener = () => setMatches(media.matches);
-
     listener();
     media.addEventListener('change', listener);
-
     return () => media.removeEventListener('change', listener);
   }, [query]);
 
@@ -53,7 +51,7 @@ function useMediaQuery(query: string) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* PROJECT CARD                                  */
+/* PROJECT CARD                                                                */
 /* -------------------------------------------------------------------------- */
 
 interface ProjectCardProps {
@@ -63,7 +61,6 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project, onExpand, isAdmin = false }: ProjectCardProps) {
-  // Preload image and handle errors
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
@@ -79,174 +76,159 @@ function ProjectCard({ project, onExpand, isAdmin = false }: ProjectCardProps) {
   }, [project.image]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileHover={{ y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className="group h-full"
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${project.title}`}
+      className="group relative flex flex-col h-full bg-bg-secondary/40 backdrop-blur-xl rounded-2xl border border-white/5 shadow-lg overflow-hidden transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-accent-primary/30 hover:shadow-2xl hover:shadow-accent-primary/10 cursor-pointer"
+      style={{ willChange: 'transform' }}
+      onClick={onExpand}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onExpand();
+        }
+      }}
     >
-      <div
-        role="button"
-        tabIndex={0}
-        aria-label={`View details for ${project.title}`}
-        className="relative flex flex-col h-full bg-gradient-to-br from-bg-secondary/40 via-bg-tertiary/60 to-bg-primary/40 rounded-3xl border border-white/10 shadow-xl overflow-hidden transition-all duration-300 hover:border-accent-primary/70 hover:shadow-2xl hover:shadow-accent-primary/20 cursor-pointer"
-        onClick={onExpand}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onExpand();
-          }
-        }}
-      >
-        {/* ----------------------------------------------------------------- */}
-        {/* IMAGE / THUMBNAIL HEADER SECTION                                  */}
-        {/* ----------------------------------------------------------------- */}
-        <div className="relative aspect-video overflow-hidden flex items-center justify-center bg-bg-secondary/50">
-            
-            {/* LAYER 1: The Thumbnail (Washed out background) */}
-            {project.image && !imgError && (
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
-                style={{
-                  opacity: imgLoaded ? 0.25 : 0, // Low opacity for "washed out" look
-                  filter: 'grayscale(100%) brightness(0.8)', // Grayscale by default
-                  transition: 'opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.7s',
-                }}
-                onLoad={() => setImgLoaded(true)}
-                onError={() => setImgError(true)}
-              />
-            )}
+      {/* IMAGE HEADER */}
+      <div className="relative aspect-video overflow-hidden flex items-center justify-center bg-bg-tertiary/50 shrink-0">
+        {project.image && !imgError && (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            style={{
+              opacity: imgLoaded ? 0.4 : 0,
+              filter: 'grayscale(80%) contrast(1.1)',
+              transition: 'opacity 0.6s ease-out, transform 0.7s ease-out, filter 0.7s ease-out',
+            }}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+          />
+        )}
 
-            {/* LAYER 2: The Glass Gradient (Overlays the image) */}
-            {/* This creates the radial glow effect mentioned in your screenshot logic */}
-            <div className="absolute inset-0 bg-gradient-to-br from-bg-secondary/80 via-bg-tertiary/50 to-bg-primary/80 z-10 pointer-events-none" />
-            
-            {/* LAYER 3: The Logo / Icon (Centered on Top) */}
-            <div className="relative z-20 flex flex-col items-center justify-center">
-                {/* Glowing backdrop for the icon */}
-                <div className="absolute inset-0 bg-accent-primary/20 blur-2xl rounded-full transform scale-150" />
-                <FolderGit2 
-                  className="relative w-16 h-16 text-text-muted group-hover:text-accent-primary transition-colors duration-300 drop-shadow-lg" 
-                  strokeWidth={1.5}
-                />
-            </div>
-
-            {/* LAYER 4: Featured Badge */}
-            {project.featured && (
-              <div className="absolute top-3 left-3 px-2.5 py-1 bg-accent-primary/90 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider rounded-full flex items-center gap-1 shadow-lg z-30">
-                <Star size={10} fill="currentColor" />
-                Featured
-              </div>
-            )}
-
-            {/* LAYER 5: Hover Interaction Overlay */}
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px] z-40">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onExpand();
-                }}
-                className="transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 px-5 py-2.5 bg-accent-primary text-white rounded-full font-medium text-sm flex items-center gap-2 shadow-lg hover:bg-accent-primary/90"
-              >
-                <Eye size={16} />
-                View Details
-              </button>
-            </div>
+        {/* Improved Image Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/20 to-transparent z-10 pointer-events-none mix-blend-multiply" />
+        
+        <div className="relative z-20 flex flex-col items-center justify-center group-hover:opacity-0 transition-opacity duration-500">
+          <div className="absolute inset-0 bg-accent-primary/10 blur-3xl rounded-full transform scale-150 transition-all duration-500 group-hover:bg-accent-primary/30" />
+          <FolderGit2
+            className="relative w-12 h-12 text-text-muted/70 transition-colors duration-500 drop-shadow-lg"
+            strokeWidth={1.5}
+          />
         </div>
 
+        {project.featured && (
+          <div className="absolute top-4 left-4 px-3 py-1 bg-accent-primary/90 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest rounded-full flex items-center gap-1.5 shadow-[0_0_15px_rgba(var(--accent-primary),0.5)] z-30">
+            <Star size={10} fill="currentColor" />
+            Featured
+          </div>
+        )}
 
-          {/* Content Section */}
-          <div className="flex flex-col flex-1 p-6 gap-2">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-xl font-bold text-text-primary line-clamp-1 group-hover:text-accent-primary transition-colors">
-                {project.title}
-              </h3>
-            </div>
-            <p className="text-base text-text-secondary mb-4 line-clamp-2 leading-relaxed">
-              {project.description || 'No description available for this project.'}
-            </p>
-            {/* Tech Stack - Limited to 3 */}
-            <div className="mt-auto">
-              {project.tags && project.tags.length > 0 && (
-                <div className="flex flex-wrap items-center gap-2 mb-4">
-                  {project.tags.slice(0, 3).map((tag, i) => (
-                    <span
-                      key={i}
-                      className="text-[12px] font-medium px-2 py-1 rounded-md bg-white/10 border border-white/20 text-text-muted"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {project.tags.length > 3 && (
-                    <span className="text-[11px] font-semibold text-text-muted/60 px-1">
-                      +{project.tags.length - 3}
-                    </span>
-                  )}
-                </div>
+        {/* Refined Hover Reveal */}
+        <div className="absolute inset-0 bg-bg-primary/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-sm z-40">
+          <button
+            onClick={(e) => { e.stopPropagation(); onExpand(); }}
+            className="transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75 px-6 py-2.5 bg-accent-primary text-white rounded-full font-semibold text-sm flex items-center gap-2 shadow-[0_4px_20px_rgba(var(--accent-primary),0.4)] hover:bg-accent-primary/90 hover:scale-105"
+          >
+            <Eye size={16} strokeWidth={2.5} />
+            View Project
+          </button>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="flex flex-col flex-1 p-6 gap-3 min-h-0 bg-gradient-to-b from-transparent to-bg-primary/50">
+        <div className="flex justify-between items-start">
+          <h3 className="text-xl font-bold text-text-primary tracking-tight line-clamp-1 group-hover:text-accent-primary transition-colors duration-300">
+            {project.title}
+          </h3>
+        </div>
+        <p className="text-sm text-text-muted mb-4 line-clamp-2 leading-relaxed font-light">
+          {project.description || 'No description available for this project.'}
+        </p>
+
+        <div className="mt-auto space-y-5">
+          {/* Tags */}
+          {project.tags && project.tags.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {project.tags.slice(0, 3).map((tag, i) => (
+                <span
+                  key={i}
+                  className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-accent-primary/10 text-accent-primary border border-accent-primary/20"
+                >
+                  {tag}
+                </span>
+              ))}
+              {project.tags.length > 3 && (
+                <span className="text-[11px] font-medium text-text-muted/70 px-1">
+                  +{project.tags.length - 3}
+                </span>
               )}
-              {/* Footer Actions */}
-              <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <div className="flex gap-2">
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="p-2 text-text-muted hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                      title="View Code"
-                    >
-                      <Github size={18} />
-                    </a>
-                  )}
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="p-2 text-text-muted hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                      title="Live Demo"
-                    >
-                      <ExternalLink size={18} />
-                    </a>
-                  )}
-                </div>
-                
-                {/* Admin Controls */}
-                {isAdmin && (
-                  <div className="flex gap-2 ml-auto">
-                    <Link
-                      href={`/editor?id=${project.id}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="p-2 text-accent-primary hover:bg-accent-primary/10 rounded-lg transition-all"
-                    >
-                      <Edit3 size={16} />
-                    </Link>
-                    <button
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        if (window.confirm('Are you sure?')) await deleteProject(project.id);
-                      }}
-                      className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                )}
-              </div>
             </div>
+          )}
+
+          {/* Footer Actions */}
+          <div className="flex items-center justify-between pt-4 border-t border-white/5">
+            <div className="flex gap-1.5 -ml-2">
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-2 text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 rounded-xl transition-all duration-300 hover:scale-110"
+                  title="View Code"
+                >
+                  <Github size={18} strokeWidth={2} />
+                </a>
+              )}
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-2 text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 rounded-xl transition-all duration-300 hover:scale-110"
+                  title="Live Demo"
+                >
+                  <ExternalLink size={18} strokeWidth={2} />
+                </a>
+              )}
+            </div>
+
+            {isAdmin && (
+              <div className="flex gap-1.5 -mr-2">
+                <Link
+                  href={`/editor?id=${project.id}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-2 text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 rounded-xl transition-all duration-300"
+                >
+                  <Edit3 size={16} strokeWidth={2} />
+                </Link>
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    if (window.confirm('Are you sure?')) await deleteProject(project.id);
+                  }}
+                  className="p-2 text-text-muted hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all duration-300"
+                >
+                  <Trash2 size={16} strokeWidth={2} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
-      </motion.div>
-    );
+      </div>
+    </div>
+  );
 }
 
-// ... Rest of the file (ProjectsCarousel export) remains unchanged
+/* -------------------------------------------------------------------------- */
+/* PROJECTS CAROUSEL                                                           */
+/* -------------------------------------------------------------------------- */
+
 export type ProjectsCarouselProps = {
   projects?: Project[];
   isAdmin?: boolean;
@@ -259,7 +241,9 @@ export default function ProjectsCarousel({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const autoScrollRef = useRef<NodeJS.Timeout | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
@@ -271,155 +255,202 @@ export default function ProjectsCarousel({
     : CARDS_PER_VIEW.desktop;
 
   const safeProjects = Array.isArray(projects) ? projects : [];
-
-  // Calculate limits
-  const maxScrollIndex = Math.max(0, safeProjects.length - cardsPerView);
+  const totalPages = Math.ceil(safeProjects.length / cardsPerView);
+  const maxIndex = Math.max(0, safeProjects.length - cardsPerView);
 
   /* ----------------------------- NAVIGATION ----------------------------- */
 
-  const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => {
-      if (prev >= maxScrollIndex) return 0;
-      return Math.min(prev + cardsPerView, maxScrollIndex);
-    });
-  }, [maxScrollIndex, cardsPerView]);
+  const goTo = useCallback((index: number) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex(index);
+    setTimeout(() => setIsAnimating(false), 500); // Matched with CSS transition
+  }, [isAnimating]);
 
-  const goToPrev = () => {
-    setCurrentIndex((prev) => {
-      if (prev <= 0) return maxScrollIndex;
-      return Math.max(prev - cardsPerView, 0);
-    });
-  };
+  const goToNext = useCallback(() => {
+    goTo(currentIndex >= maxIndex ? 0 : Math.min(currentIndex + cardsPerView, maxIndex));
+  }, [currentIndex, maxIndex, cardsPerView, goTo]);
+
+  const goToPrev = useCallback(() => {
+    goTo(currentIndex <= 0 ? maxIndex : Math.max(currentIndex - cardsPerView, 0));
+  }, [currentIndex, maxIndex, cardsPerView, goTo]);
 
   /* ----------------------------- AUTO SCROLL ----------------------------- */
 
   useEffect(() => {
     if (isPaused || safeProjects.length <= cardsPerView) return;
+    autoScrollRef.current = setInterval(goToNext, AUTO_SCROLL_INTERVAL);
+    return () => { if (autoScrollRef.current) clearInterval(autoScrollRef.current); };
+  }, [isPaused, safeProjects.length, cardsPerView, goToNext]);
 
-    autoScrollRef.current = setInterval(() => {
-      goToNext();
-    }, AUTO_SCROLL_INTERVAL);
-
-    return () => {
-      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
-    };
-  }, [isPaused, maxScrollIndex, cardsPerView, safeProjects.length, goToNext]);
-
-  /* ----------------------------- BODY SCROLL LOCK ----------------------------- */
+  /* ----------------------------- BODY SCROLL LOCK ----------------------- */
 
   useEffect(() => {
-    if (activeProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    document.body.style.overflow = activeProject ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
   }, [activeProject]);
+
+  /* ----------------------------- TOUCH SWIPE ----------------------------- */
+
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      dx < 0 ? goToNext() : goToPrev();
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   /* ----------------------------- EMPTY STATE ----------------------------- */
 
   if (safeProjects.length === 0) {
     return (
-      <div className="rounded-2xl border border-border-light bg-gradient-to-br from-bg-secondary to-bg-tertiary p-12 text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-primary/10 text-accent-primary mb-4">
-          <Star size={32} />
+      <div className="rounded-3xl border border-dashed border-white/10 bg-bg-secondary/20 backdrop-blur-md p-16 text-center transition-all hover:bg-bg-secondary/30">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent-primary/10 text-accent-primary mb-6 ring-8 ring-accent-primary/5">
+          <FolderGit2 size={36} strokeWidth={1.5} />
         </div>
-        <h3 className="text-xl font-bold text-text-primary mb-2">
-          Coming Soon
-        </h3>
-        <p className="text-sm text-text-muted max-w-md mx-auto">
-          New projects are currently in development. Check back soon to see what we&apos;re building!
+        <h3 className="text-2xl font-bold text-text-primary mb-3 tracking-tight">Nothing here yet</h3>
+        <p className="text-base text-text-muted max-w-md mx-auto font-light">
+          New projects are currently brewing. Check back soon to see the latest updates!
         </p>
       </div>
     );
   }
 
-  /* ----------------------------- RENDER LOGIC ----------------------------- */
+  /* ----------------------------- RENDER ---------------------------------- */
 
-  const visibleProjects = safeProjects.slice(currentIndex, currentIndex + cardsPerView);
+  const gapPx = 24; 
+  const currentPage = Math.round(currentIndex / cardsPerView);
 
   return (
     <>
       <div
-        className="relative"
+        className="relative group/carousel"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-bg-secondary/50 to-bg-tertiary/50 p-4 md:p-8">
-          <div className={`grid gap-6 ${
-            isMobile ? 'grid-cols-1' : isTablet ? 'grid-cols-2' : 'grid-cols-3'
-          }`}>
-            <AnimatePresence mode="popLayout">
-              {visibleProjects.map((project) => (
-                <ProjectCard
+        {/* Cleaner container without the heavy background gradients */}
+        <div className="relative overflow-hidden rounded-3xl py-4 md:py-8 px-2 md:px-6">
+
+          {/* TRACK WRAPPER */}
+          <div className="overflow-hidden">
+            <div
+              ref={trackRef}
+              className="flex"
+              style={{
+                gap: `${gapPx}px`,
+                transform: `translateX(calc(-${currentIndex} * (100% / ${cardsPerView} + ${gapPx / cardsPerView}px)))`,
+                transition: isAnimating ? 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)' : 'none',
+                willChange: 'transform',
+              }}
+            >
+              {safeProjects.map((project) => (
+                <div
                   key={project.id}
-                  project={project}
-                  onExpand={() => setActiveProject(project)}
-                  isAdmin={isAdmin}
-                />
+                  style={{
+                    flex: `0 0 calc(${100 / cardsPerView}% - ${gapPx * (cardsPerView - 1) / cardsPerView}px)`,
+                    minWidth: 0,
+                  }}
+                  className="py-2" // Added slight padding so the hover shadow isn't clipped
+                >
+                  <ProjectCard
+                    project={project}
+                    onExpand={() => setActiveProject(project)}
+                    isAdmin={isAdmin}
+                  />
+                </div>
               ))}
-            </AnimatePresence>
+            </div>
           </div>
 
-          {/* Navigation Buttons */}
+          {/* NAVIGATION BUTTONS */}
           {safeProjects.length > cardsPerView && (
             <>
               <button
                 onClick={goToPrev}
-                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-bg-primary/90 backdrop-blur-sm border border-border-light rounded-full flex items-center justify-center text-text-primary hover:border-accent-primary hover:text-accent-primary hover:bg-accent-primary/10 transition-all shadow-xl disabled:opacity-30 disabled:cursor-not-allowed z-20"
+                className="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-bg-secondary/80 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-text-primary hover:border-accent-primary/50 hover:text-accent-primary hover:bg-accent-primary/10 hover:scale-110 active:scale-95 transition-all duration-300 shadow-xl opacity-0 group-hover/carousel:opacity-100 -translate-x-4 group-hover/carousel:translate-x-0 z-20"
                 aria-label="Previous projects"
               >
-                <ChevronLeft size={24} />
+                <ChevronLeft size={24} strokeWidth={2} className="-ml-0.5" />
               </button>
-
               <button
                 onClick={goToNext}
-                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-bg-primary/90 backdrop-blur-sm border border-border-light rounded-full flex items-center justify-center text-text-primary hover:border-accent-primary hover:text-accent-primary hover:bg-accent-primary/10 transition-all shadow-xl disabled:opacity-30 disabled:cursor-not-allowed z-20"
+                className="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-bg-secondary/80 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-text-primary hover:border-accent-primary/50 hover:text-accent-primary hover:bg-accent-primary/10 hover:scale-110 active:scale-95 transition-all duration-300 shadow-xl opacity-0 group-hover/carousel:opacity-100 translate-x-4 group-hover/carousel:translate-x-0 z-20"
                 aria-label="Next projects"
               >
-                <ChevronRight size={24} />
+                <ChevronRight size={24} strokeWidth={2} className="-mr-0.5" />
               </button>
             </>
           )}
         </div>
 
-        <div className="text-center mt-4">
-          <p className="text-sm text-text-muted">
-            Showing {currentIndex + 1}-{Math.min(currentIndex + cardsPerView, safeProjects.length)} of {safeProjects.length} projects
-          </p>
+        {/* PAGINATION DOTS */}
+        <div className="flex flex-col items-center gap-3 mt-2">
+          {totalPages > 1 && (
+            <div className="flex gap-2.5">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goTo(i * cardsPerView)}
+                  className={`rounded-full transition-all duration-500 ease-out ${
+                    i === currentPage
+                      ? 'w-8 h-2 bg-accent-primary shadow-[0_0_10px_rgba(var(--accent-primary),0.5)]'
+                      : 'w-2 h-2 bg-text-muted/20 hover:bg-text-muted/50 hover:scale-125'
+                  }`}
+                  aria-label={`Go to page ${i + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
+      {/* MODAL */}
       <AnimatePresence>
         {activeProject && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm md:backdrop-blur-none md:bg-black/40"
+          <motion.div
+            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            animate={{ opacity: 1, backdropFilter: 'blur(8px)' }}
+            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40"
             style={{ overscrollBehavior: 'contain' }}
           >
-            <div
-              className="relative w-full h-full max-w-2xl md:max-w-3xl md:h-auto flex items-center justify-center p-0 md:p-8"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.4, type: 'spring', bounce: 0.2 }}
+              className="relative w-full h-full max-w-3xl md:h-auto flex items-center justify-center p-0 md:p-6"
             >
-              {/* Close button always visible at top right */}
               <button
                 onClick={() => setActiveProject(null)}
-                className="absolute top-4 right-4 z-50 bg-white/80 hover:bg-white text-black rounded-full p-2 shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-primary md:top-2 md:right-2"
+                className="absolute top-6 right-6 md:top-2 md:right-2 z-50 bg-bg-secondary/80 backdrop-blur-md hover:bg-bg-tertiary text-text-primary border border-white/10 rounded-full p-2.5 shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-accent-primary/50"
                 aria-label="Close project details"
               >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 6L14 14M14 6L6 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
+                <X size={20} strokeWidth={2.5} />
               </button>
-              <div className="w-full h-full md:rounded-2xl bg-bg-primary overflow-y-auto max-h-[100dvh] md:max-h-[90vh] shadow-2xl">
+              <div className="w-full h-full md:rounded-3xl bg-bg-primary overflow-y-auto max-h-[100dvh] md:max-h-[85vh] shadow-[0_0_40px_rgba(0,0,0,0.5)] ring-1 ring-white/5 scrollbar-hide">
                 <ProjectDetailModal
                   project={activeProject}
                   onClose={() => setActiveProject(null)}
                 />
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
