@@ -12,7 +12,6 @@ const playfair = Playfair_Display({
   weight: ['400', '700'],
   variable: '--font-playfair',
 });
-import AuthProvider from '@/components/AuthProvider';
 import { Toaster } from 'react-hot-toast';
 import Script from 'next/script'; 
 
@@ -42,10 +41,8 @@ export default function RootLayout({
       {/* suppressHydrationWarning removed from body to keep safety checks active */}
       <body className="antialiased bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AuthProvider>
-            {children}
-            <Toaster position="bottom-right" />
-          </AuthProvider>
+          {children}
+          <Toaster position="bottom-right" />
         </ThemeProvider>
         
         <Script

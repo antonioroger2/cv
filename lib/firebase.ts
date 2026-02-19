@@ -1,6 +1,7 @@
 import { initializeApp, getApps, FirebaseApp, FirebaseOptions } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getFirestore as getFirestoreLite } from 'firebase/firestore/lite';
 import { getStorage } from 'firebase/storage';
 
 // Firebase configuration - only expose necessary public values
@@ -36,9 +37,10 @@ function getFirebaseApp(): FirebaseApp {
 const app = getFirebaseApp();
 const auth = getAuth(app);
 const db = getFirestore(app);
+const dbLite = getFirestoreLite(app);
 const storage = getStorage(app);
 
-export { app, auth, db, storage };
+export { app, auth, db, dbLite, storage };
 
 // Export only the necessary public config for client-side use
 export const publicFirebaseConfig = {

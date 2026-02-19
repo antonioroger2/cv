@@ -4,14 +4,13 @@ import { useEffect, useState, useRef, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Project } from '@/lib/types';
-import { getProjects } from '@/lib/database';
+import { getProjects, getProjectsLite } from '@/lib/database';
 import identity from '@/lib/identity.json'; 
 
 // Keep above-the-fold imports static
 import FloatingAdminButton from '@/components/FloatingAdminButton';
 import ThemeToggle from '@/components/ThemeToggle';
 import MobileMenu from '@/components/MobileMenu';
-import { useAuth } from '@/components/AuthProvider';
 import ProfileHeader from '@/components/ProfileAbout';
 
 // Dynamically import heavy, below-the-fold components
@@ -56,7 +55,6 @@ export default function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectsLoading, setProjectsLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user } = useAuth();
   const isMountedRef = useRef(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -67,19 +65,30 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    let isMounted = true; // Fix for "Can't perform state update"
+    let isMounted = true;
 
-    const unsubscribe = getProjects((projectsData) => {
-      if (isMounted) {
-        setProjects(projectsData);
-        setProjectsLoading(false);
-        setRefreshing(false);
+    // Use lite version for initial load (no real-time listeners)
+    const loadProjects = async () => {
+      try {
+        const projectsData = await getProjectsLite();
+        if (isMounted) {
+          setProjects(projectsData);
+          setProjectsLoading(false);
+        }
+      } catch (error) {
+        console.error('Error loading projects:', error);
+        if (isMounted) {
+          setProjectsLoading(false);
+        }
       }
-    });
+    };
+
+    // Wait 1.5 seconds to let the vital UI render first
+    const timer = setTimeout(loadProjects, 1500);
 
     return () => {
       isMounted = false;
-      unsubscribe();
+      clearTimeout(timer);
     };
   }, []);
 
@@ -160,7 +169,7 @@ export default function Home() {
                   <h3 className="text-lg font-semibold">Coming Soon</h3>
                 </div>
               ) : (
-                <ProjectsCarousel projects={projects} isAdmin={!!user} />
+                <ProjectsCarousel projects={projects} />
               )}
             </div>
           </ScrollReveal>
@@ -266,7 +275,7 @@ export default function Home() {
         </section>
 
       </main>
-      {user && <FloatingAdminButton />}
+      <FloatingAdminButton />
     </div>
   );
 }

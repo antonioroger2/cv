@@ -1,4 +1,4 @@
-import { db } from './firebase';
+import { db, dbLite } from './firebase';
 import { 
   collection, 
   addDoc, 
@@ -11,6 +11,7 @@ import {
   serverTimestamp,
   getDoc
 } from 'firebase/firestore';
+import { collection as collectionLite, getDocs } from 'firebase/firestore/lite';
 import { Project, ContactFormData } from '@/lib/types';
 
 // Projects CRUD using Firestore
@@ -56,6 +57,13 @@ export const getProjects = (callback: (projects: Project[]) => void, forceRefres
   });
 
   return unsubscribe;
+};
+
+// Lite version for public reads (no real-time listeners, smaller bundle)
+export const getProjectsLite = async (): Promise<Project[]> => {
+  const projectsCol = collectionLite(dbLite, 'projects');
+  const projectSnapshot = await getDocs(projectsCol);
+  return projectSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Project[];
 };
 
 export const addProject = async (project: Omit<Project, 'id' | 'lastUpdated'>) => {

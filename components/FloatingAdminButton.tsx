@@ -2,14 +2,22 @@
 
 import { motion } from 'framer-motion';
 import { Plus, Settings, LogOut } from 'lucide-react';
-import { useState } from 'react';
-import { signOut } from 'firebase/auth';
+import { useState, useEffect } from 'react';
+import { signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
 export default function FloatingAdminButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return unsubscribe;
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -21,6 +29,8 @@ export default function FloatingAdminButton() {
       toast.error('Failed to logout');
     }
   };
+
+  if (!user) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
