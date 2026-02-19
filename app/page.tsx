@@ -1,21 +1,28 @@
 'use client';
 
 import { useEffect, useState, useRef, ReactNode } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Project } from '@/lib/types';
 import { getProjects } from '@/lib/database';
 import identity from '@/lib/identity.json'; 
 
-import ProjectsCarousel from '@/components/ProjectsCarousel';
+// Keep above-the-fold imports static
 import FloatingAdminButton from '@/components/FloatingAdminButton';
 import ThemeToggle from '@/components/ThemeToggle';
 import MobileMenu from '@/components/MobileMenu';
 import { useAuth } from '@/components/AuthProvider';
-import ExperienceSection from '@/components/ExperienceSection';
-import EducationSection from '@/components/EducationSection';
-import CertificationsSection from '@/components/CertificationsSection';
-import AchievementsSection from '@/components/AchievementsSection';
 import ProfileHeader from '@/components/ProfileAbout';
+
+// Dynamically import heavy, below-the-fold components
+const ProjectsCarousel = dynamic(() => import('@/components/ProjectsCarousel'), { 
+  ssr: false, 
+  loading: () => <div className="animate-pulse h-64 bg-white/5 rounded-2xl"></div> 
+});
+const ExperienceSection = dynamic(() => import('@/components/ExperienceSection'));
+const EducationSection = dynamic(() => import('@/components/EducationSection'));
+const CertificationsSection = dynamic(() => import('@/components/CertificationsSection'));
+const AchievementsSection = dynamic(() => import('@/components/AchievementsSection'));
 
 function ScrollReveal({ children, id, className = "" }: { children: ReactNode, id?: string, className?: string }) {
   const ref = useRef(null);
@@ -108,7 +115,12 @@ export default function Home() {
               <a href="#contact" className="nav-link">Contact</a>
               <ThemeToggle />
             </div>
-            <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 rounded-lg hover:bg-bg-tertiary transition-colors">
+            <button 
+              aria-label="Open mobile menu" 
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen(true)} 
+              className="md:hidden p-2 rounded-lg hover:bg-bg-tertiary transition-colors"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -65,7 +66,6 @@ function ProjectCard({ project, onExpand, isAdmin = false }: ProjectCardProps) {
   // Preload image and handle errors
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     setImgLoaded(false);
@@ -87,8 +87,17 @@ function ProjectCard({ project, onExpand, isAdmin = false }: ProjectCardProps) {
       className="group h-full"
     >
       <div
+        role="button"
+        tabIndex={0}
+        aria-label={`View details for ${project.title}`}
         className="relative flex flex-col h-full bg-gradient-to-br from-bg-secondary/40 via-bg-tertiary/60 to-bg-primary/40 rounded-3xl border border-white/10 shadow-xl overflow-hidden transition-all duration-300 hover:border-accent-primary/70 hover:shadow-2xl hover:shadow-accent-primary/20 cursor-pointer"
         onClick={onExpand}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onExpand();
+          }
+        }}
       >
         {/* ----------------------------------------------------------------- */}
         {/* IMAGE / THUMBNAIL HEADER SECTION                                  */}
@@ -97,10 +106,10 @@ function ProjectCard({ project, onExpand, isAdmin = false }: ProjectCardProps) {
             
             {/* LAYER 1: The Thumbnail (Washed out background) */}
             {project.image && !imgError && (
-              <img
-                ref={imgRef}
+              <Image
                 src={project.image}
                 alt={project.title}
+                fill
                 className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
                 style={{
                   opacity: imgLoaded ? 0.25 : 0, // Low opacity for "washed out" look

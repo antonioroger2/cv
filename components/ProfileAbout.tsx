@@ -1,6 +1,7 @@
 "use client";
 import { IdentityData } from "@/lib/types";
 import { motion } from "framer-motion";
+import Image from 'next/image';
 import SkillsCarousel from "./SkillsCarousel";
 interface Props {
 identity: IdentityData;
@@ -16,12 +17,14 @@ animate={{ scale: 1, opacity: 1 }}
 transition={{ duration: 0.6 }}
 className="mb-6"
 >
-<div className="w-[clamp(8rem,13vh,12rem)] h-[clamp(8rem,13vh,12rem)] mx-auto rounded-full overflow-hidden ring-4 ring-cyan-500/30 shadow-2xl">
-<img
-src={identity.avatar || "public/data/avatar.jpg"}
-alt={identity.name}
-className="w-full h-full object-cover"
-loading="eager"
+<div className="w-[clamp(8rem,13vh,12rem)] h-[clamp(8rem,13vh,12rem)] mx-auto rounded-full overflow-hidden ring-4 ring-cyan-500/30 shadow-2xl relative">
+<Image
+  src={identity.avatar || "/data/avatar.jpg"}
+  alt={identity.name}
+  fill
+  priority
+  className="object-cover"
+  sizes="(max-width: 768px) 8rem, 12rem"
 />
 </div>
 </motion.div>
