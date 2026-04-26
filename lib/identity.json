@@ -90,7 +90,7 @@
         }
       ]
     },
-    {
+        {
       "id": "tedx-web-technical",
       "title": "Web & Technical Expert",
       "company": "TEDxAmritaVishwaVidyapeetham",
@@ -100,7 +100,8 @@
       "endDate": "Nov 2025",
       "description": "Technical support and web development for TEDx events and initiatives.",
       "skills": ["Web Development", "Event Management", "Technical Support"]
-    },
+    }
+  ],
 
   "certifications": [
     {
