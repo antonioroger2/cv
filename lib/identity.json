@@ -23,6 +23,45 @@
   ],
   "experience": [
     {
+  "id": "discovery-ai-llc",
+  "title": "AI Computer Vision Intern",
+  "company": "Discovery AI LLC",
+  "location": "Plano, Texas , USA ",
+  "type": "internship",
+  "startDate": "Apr 2026",
+  "current": true,
+  "description": "Optimized a GPU-accelerated AR home décor visualization system using SAM2 for real-time segmentation and depth-based homography estimation; Deployed on an NVIDIA A100-backed FastAPI cloud infrastructure, delivering high-performance inference for real-world users across the United States.",
+  "skills": [
+    "Python",
+    "FastAPI",
+    "Shopify",
+    ".liquid",
+    "Computer Vision",
+    "UX",
+    "Deep Learning"
+  ],
+  "roles": [
+    {
+      "id": "cv-backend-developer",
+      "title": "Computer Vision Developer",
+      "startDate": "Apr 2026",
+      "current": true,
+      "description": "Fine-tuned high-performance rendering pipelines via a Python–WASM bridge, enabling real-time perspective warping, shadow casting, and 3D floor-plane estimation.",
+      "skills": ["scikit-image", "Pyodide", "OpenCV" , "scikit-learn" ]
+
+    },
+    {
+      "id": "infrastructure-engineer",
+      "title": "Infrastructure & UXE ",
+      "startDate": "Apr 2026",
+      "current": true,
+      "description": "Leading end-to-end development optimization of a web-based product visualizer, improving UX reliability through geometric placement algorithms (convex hull, centroid) and floor-overlap constraints. Enhanced real-time performance using Python–WebAssembly (Pyodide), cold-start optimization, and IndexedDB caching. Increased system stability via request deduplication and in-flight tracking, while integrating analytics and optimizing Shopify PDP workflows to improve user engagement.",
+      "skills": ["Google Analytics","Docker", "WASM - Pyodide","IndexedDB"]
+    }
+  ]
+},
+    
+    {
       "id": "intel-iot-club",
       "title": "Head - Application Development",
       "company": "Intel IoT Club",
@@ -62,18 +101,7 @@
       "description": "Technical support and web development for TEDx events and initiatives.",
       "skills": ["Web Development", "Event Management", "Technical Support"]
     },
-    {
-      "id": "team-media-photographer",
-      "title": "Photographer",
-      "company": "Team Media - Amrita",
-      "location": "Coimbatore, Tamil Nadu, India",
-      "type": "part-time",
-      "startDate": "Nov 2023",
-      "endDate": "Dec 2024",
-      "description": "Photography and media coverage for university events and activities.",
-      "skills": ["Photography", "Photo Editing", "Event Coverage"]
-    }
-  ],
+
   "certifications": [
     {
       "id": "nptel-dsa-java",
