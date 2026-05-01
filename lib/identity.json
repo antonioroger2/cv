@@ -30,7 +30,7 @@
   "type": "internship",
   "startDate": "Apr 2026",
   "current": true,
-  "description": "Optimized a GPU-accelerated AR home décor visualization system using SAM2 for real-time segmentation and depth-based homography estimation; Deployed on an NVIDIA A100-backed FastAPI cloud infrastructure, delivering high-performance inference for real-world users across the United States.",
+  "description": "Optimized a GPU-accelerated AR home décor visualization system for real-time scene understanding and spatial alignment; deployed on NVIDIA A100-backed infrastructure, enabling low-latency, high-performance inference for users across the United States.",
   "skills": [
     "Python",
     "FastAPI",
@@ -46,8 +46,8 @@
       "title": "Computer Vision Developer",
       "startDate": "Apr 2026",
       "current": true,
-      "description": "Fine-tuned high-performance rendering pipelines via a Python–WASM bridge, enabling real-time perspective warping, shadow casting, and 3D floor-plane estimation.",
-      "skills": ["scikit-image", "Pyodide", "OpenCV" , "scikit-learn" ]
+      "description": "Fine-tuned high-performance rendering pipelines via WASM bridge, enabling real-time perspective warping, shadow casting, and 3D floor-plane estimation.",
+      "skills": ["scikit", "Pyodide", "CV" ]
 
     },
     {
@@ -55,8 +55,8 @@
       "title": "Infrastructure & UXE ",
       "startDate": "Apr 2026",
       "current": true,
-      "description": "Leading end-to-end development optimization of a web-based product visualizer, improving UX reliability through geometric placement algorithms (convex hull, centroid) and floor-overlap constraints. Enhanced real-time performance using Python–WebAssembly (Pyodide), cold-start optimization, and IndexedDB caching. Increased system stability via request deduplication and in-flight tracking, while integrating analytics and optimizing Shopify PDP workflows to improve user engagement.",
-      "skills": ["Google Analytics","Docker", "WASM - Pyodide","IndexedDB"]
+      "description": "Leading end-to-end development optimization of a web-based product visualizer, improving UX reliability through geometric placement algorithms and floor-overlap constraints. Enhanced real-time performance, cold-start optimization, and IDB caching. Increased system stability via request deduplication and in-flight tracking, while integrating analytics and optimizing Shopify PDP workflows to improve user engagement.",
+      "skills": ["Google Analytics","Docker", "WASM","IndexedDB"]
     }
   ]
 },
